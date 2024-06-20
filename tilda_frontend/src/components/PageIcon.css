@@ -1,0 +1,11 @@
+.page-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}

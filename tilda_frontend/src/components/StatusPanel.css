@@ -1,0 +1,183 @@
+.status-panel {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.status-panel.hidden {
+  height: 35px; /* Минимальная высота для свернутой панели */
+  transform: translateY(0);
+}
+
+.status-panel.visible {
+  transform: translateY(0);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px; /* Уменьшенные отступы */
+  background-color: #007bff;
+  color: white;
+  font-size: 14px; /* Уменьшенный размер шрифта */
+}
+
+.panel-title {
+  font-size: 14px; /* Уменьшенный размер шрифта */
+  margin: 0; /* Убираем дефолтные мэрджины */
+  padding-left: 12px; /* Увеличенный отступ текста от края */
+}
+
+.panel-title-collapsed {
+  font-size: 14px; /* Уменьшенный размер шрифта */
+  margin: 0; /* Убираем дефолтные мэрджины */
+  padding: 4px 12px; /* Минимальные отступы, включая слева */
+  color: #007bff;
+}
+
+.panel-content {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.download-item {
+  margin-bottom: 10px;
+  text-align: left; /* Выровняем по левому краю */
+  padding: 4px; /* Паддинг по периметру */
+  position: relative; /* Для позиционирования кнопки отмены */
+}
+
+.download-item.completed {
+  background-color: #d4edda;
+}
+
+.download-item.error {
+  background-color: #ffe5e0;
+}
+
+.download-item.archiving {
+  animation: blinking 1s infinite;
+}
+
+.download-item.cancelled {
+  background-color: #f4f4f4; /* Светло-серый фон */
+  color: #888; /* Серый шрифт */
+}
+
+.download-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.cancel-button {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.progress-bar {
+  height: 5px;
+  background-color: #ccc;
+  border-radius: 2.5px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.3s ease-in-out;
+}
+
+.completed-status {
+  color: green;
+  font-weight: bold;
+}
+
+.error-status {
+  color: #FF7F50; /* коралловый цвет */
+  font-weight: bold;
+}
+
+.cancelled-status {
+  color: #888;
+  font-weight: bold;
+}
+
+.status {
+  color: #007bff;
+  font-weight: bold;
+}
+
+@keyframes blinking {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.toggle-button {
+  position: absolute;
+  top: -20px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 20px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.hide-completed-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border: none;
+  border-top: 1px solid #ddd;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.hide-completed-button:hover {
+  background-color: #e4e4e4;
+}
+
+.collapsed-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 14px; /* Уменьшенный размер шрифта */
+  cursor: pointer; /* Добавляем курсор указатель для интерактивности */
+  padding: 4px; /* Минимальные отступы */
+}
+
+/* Стили для сообщения об отсутствии загрузок */
+.no-downloads {
+  text-align: center;
+  color: #888; /* Светло-серый цвет */
+  font-size: 14px; /* Размер шрифта */
+}

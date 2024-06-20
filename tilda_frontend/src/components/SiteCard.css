@@ -1,0 +1,32 @@
+.site-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
+  text-align: center;
+  min-height: 100px;
+  max-height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.site-card:hover {
+  transform: scale(1.05);
+}
+
+.site-card.selected {
+  background-color: #e0f7fa; /* Цвет фона для выделенной карточки */
+  border-color: #007bff; /* Цвет границы для выделенной карточки */
+}
+
+.site-card h2 {
+  margin: 0;
+  font-size: 1.1em;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
