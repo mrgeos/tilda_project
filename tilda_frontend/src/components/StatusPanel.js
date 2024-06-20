@@ -24,13 +24,14 @@ const StatusPanel = ({ downloads, cancelDownload, togglePanel, isPanelVisible, h
     return () => clearTimeout(timer);
   }, [downloadQueue]);
 
-  const cancelDownloadWithStatus = (pageId) => {
-    setDownloadQueue((prevQueue) =>
-      prevQueue.map((download) =>
-        download.id === pageId ? { ...download, status: 'cancelled' } : download
-      )
-    );
-  };
+const cancelDownloadWithStatus = (pageId) => {
+  setDownloadQueue((prevQueue) =>
+    prevQueue.map((download) =>
+      download.id === pageId ? { ...download, status: 'cancelled' } : download
+    )
+  );
+  cancelDownload(pageId); // вызываем функцию отмены загрузки
+};
 
   // Сортируем объекты: в процессе скачивания отображаются выше завершенных и отмененных
   const sortedDownloads = downloadQueue.sort((a, b) => {
