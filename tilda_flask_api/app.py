@@ -1,4 +1,4 @@
-from flask import Flask, Response, jsonify
+from flask import Flask, Response, jsonify, request
 import requests
 import json
 from flask_cors import CORS
@@ -54,6 +54,12 @@ def pages(project_id):
     # Формируем правильный ответ с корректной кодировкой UTF-8
     response = Response(json.dumps(data, ensure_ascii=False), content_type='application/json; charset=utf-8')
     return response
+
+@app.route('/api/tilda/<path:path>', methods=['GET'])
+def proxy_tilda_request(path):
+    url = f"https://tilda.ws/{path}"
+    response = requests.get(url)
+    return Response(response.content, status=response.status_code, content_type=response.headers['Content-Type'])
 
 if __name__ == '__main__':
     app.run(debug=True)

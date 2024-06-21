@@ -1,37 +1,37 @@
 /* Стили для карточек сайтов */
 .site-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Ограничиваем сетку до 3 колонок */
-  gap: 15px; /* Отступы между карточками */
-  width: 100%; /* Растягиваем блок по всей ширине */
-  max-width: 100%; /* Максимальная ширина 100% */
-  margin: 0 auto; /* Центрируем блок карточек по горизонтали */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* Стили для таблицы */
 .page-table {
-  margin-top: 20px; /* Уменьшаем отступ сверху */
-  width: 100%; /* Растягиваем таблицу по всей ширине */
+  margin-top: 20px;
+  width: 100%;
 }
 
 /* Стили для панели действий */
 .action-buttons {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Центрируем элементы вертикально */
+  align-items: center;
   margin-bottom: 20px;
 }
 
 /* Стили для строки поиска */
 .search-bar {
-  position: relative; /* Позиционирование для размещения кнопки очистки внутри */
-  flex-grow: 1; /* Заставляет строку поиска расширяться, чтобы заполнить доступное пространство */
-  margin: 0 20px; /* Равномерные отступы по бокам */
-  display: flex; /* Используем flex для размещения input и кнопки очистки */
+  position: relative;
+  flex-grow: 1;
+  margin: 0 20px;
+  display: flex;
 }
 
 .search-bar input {
-  flex-grow: 1; /* Заставляет input занимать все доступное пространство в контейнере */
+  flex-grow: 1;
   padding: 10px;
   border: 2px solid #007bff;
   border-radius: 5px;
@@ -39,14 +39,14 @@
 
 .clear-search {
   position: absolute;
-  right: 10px; /* Отступ от правого края */
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: gray;
   cursor: pointer;
-  font-size: 0.7em; /* Уменьшенный размер иконки */
+  font-size: 0.7em;
 }
 
 /* Стили для выпадающего списка сортировки */
@@ -62,18 +62,18 @@
   border-radius: 5px;
   cursor: pointer;
   display: flex;
-  align-items: center; /* Центрируем текст и иконку вертикально */
+  align-items: center;
 }
 
 .sort-button svg {
-  margin-left: 5px; /* Отступ между текстом и иконкой */
-  margin-bottom: 5px; /* Сдвигаем иконку треугольника вверх */
+  margin-left: 5px;
+  margin-bottom: 5px;
 }
 
 .dropdown-menu {
   position: absolute;
-  right: 0; /* Выравниваем выпадающий список по правому краю */
-  top: 40px; /* Сдвигаем вниз от кнопки */
+  right: 0;
+  top: 40px;
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -81,7 +81,7 @@
   list-style: none;
   padding: 10px 0;
   margin: 0;
-  width: 200px; /* Задаем фиксированную ширину */
+  width: 200px;
 }
 
 .dropdown-menu li {
@@ -117,7 +117,7 @@
 
 /* Анимация для кнопки во время загрузки */
 .download-button.loading {
-  background: linear-gradient(270deg, #999, #ccc, #999); /* Серый градиент */
+  background: linear-gradient(270deg, #999, #ccc, #999);
   background-size: 400% 400%;
   animation: gradient-animation 2s ease infinite;
 }
@@ -130,14 +130,14 @@
 
 /* Стили для ссылки "Снять все" */
 .clear-selection {
-  color: #007bff; /* Голубой цвет */
+  color: #007bff;
   cursor: pointer;
-  font-size: 14px; /* Одинаковый размер шрифта */
-  margin-left: 15px; /* Отступ слева для создания пространства между кнопками */
+  font-size: 14px;
+  margin-left: 15px;
 }
 
 .clear-selection:hover {
-  text-decoration: underline; /* Подчеркивание при наведении */
+  text-decoration: underline;
 }
 
 /* Стили для таблицы */
@@ -176,7 +176,7 @@ th {
 
 .page-descr {
   font-size: 0.8em;
-  color: #777; /* Светло серый цвет */
+  color: #777;
   margin-top: 4px;
 }
 
@@ -188,7 +188,7 @@ th {
 }
 
 .highlight {
-  background-color: yellow; /* Подсветка найденного текста */
+  background-color: yellow;
 }
 
 /* Стили для диалогового окна подтверждения скачивания */
@@ -202,15 +202,15 @@ th {
   border: 2px solid #007bff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1001; /* Увеличенный z-index для диалогового окна */
+  z-index: 1001;
   text-align: center;
-  width: 80%; /* Задаем ширину окна */
-  max-width: 400px; /* Ограничиваем максимальную ширину */
+  width: 80%;
+  max-width: 400px;
 }
 
 .confirmation-dialog p {
   margin-bottom: 20px;
-  font-size: 16px; /* Размер шрифта */
+  font-size: 16px;
 }
 
 .confirmation-dialog button {
@@ -238,6 +238,45 @@ th {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2); /* Черный цвет с прозрачностью 20% */
-  z-index: 1000; /* z-index ниже, чем у диалогового окна */
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+/* PageTable.css */
+
+/* Стили для групп */
+.page-row.grouped {
+  border-top: 2px solid #ddd;
+}
+
+/* Стили для фона групп */
+.page-row.grouped:nth-of-type(1) {
+  background-color: #DEFDE0;
+}
+
+.page-row.grouped:nth-of-type(2) {
+  background-color: #DEF3FD;
+}
+
+.page-row.grouped:nth-of-type(3) {
+  background-color: #FCF7DE;
+}
+
+.page-row.grouped:nth-of-type(4) {
+  background-color: #F0DEFD;
+}
+
+.page-row.grouped:nth-of-type(5) {
+  background-color: #FDDFDF;
+}
+
+/* Стили для выделения текста при поиске */
+.highlight {
+  background-color: yellow;
+}
+
+/* Стили для кнопки загрузки */
+.download-button.loading {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

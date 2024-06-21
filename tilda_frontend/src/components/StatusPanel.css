@@ -1,3 +1,4 @@
+/* Стили для статус-панели */
 .status-panel {
   position: fixed;
   bottom: 10px;
@@ -7,12 +8,12 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   overflow: hidden;
-  transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, height 0.3s ease-in-out, width 0.3s ease-in-out;
   z-index: 1000;
 }
 
 .status-panel.hidden {
-  height: 35px; /* Минимальная высота для свернутой панели */
+  height: 35px;
   transform: translateY(0);
 }
 
@@ -20,26 +21,45 @@
   transform: translateY(0);
 }
 
+.status-panel.maximized {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  max-width: 1000px;
+  min-width: 700px;
+  height: auto;
+  max-height: 80vh;
+  z-index: 1002;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px; /* Уменьшенные отступы */
+  padding: 4px;
   background-color: #007bff;
   color: white;
-  font-size: 14px; /* Уменьшенный размер шрифта */
+  font-size: 14px;
 }
 
 .panel-title {
-  font-size: 14px; /* Уменьшенный размер шрифта */
-  margin: 0; /* Убираем дефолтные мэрджины */
-  padding-left: 12px; /* Увеличенный отступ текста от края */
+  font-size: 14px;
+  margin: 0;
+  padding-left: 12px;
+}
+
+.panel-controls {
+  display: flex;
+  gap: 5px; /* Отступ между кнопками */
 }
 
 .panel-title-collapsed {
-  font-size: 14px; /* Уменьшенный размер шрифта */
-  margin: 0; /* Убираем дефолтные мэрджины */
-  padding: 4px 12px; /* Минимальные отступы, включая слева */
+  font-size: 14px;
+  margin: 0;
+  padding: 4px 12px;
   color: #007bff;
 }
 
@@ -51,26 +71,32 @@
 
 .download-item {
   margin-bottom: 10px;
-  text-align: left; /* Выровняем по левому краю */
-  padding: 4px; /* Паддинг по периметру */
-  position: relative; /* Для позиционирования кнопки отмены */
+  text-align: left;
+  padding: 4px;
+  position: relative;
 }
 
 .download-item.completed {
   background-color: #d4edda;
+  border-left: 5px solid green;
 }
 
 .download-item.error {
   background-color: #ffe5e0;
+  border-left: 5px solid red;
 }
 
 .download-item.archiving {
   animation: blinking 1s infinite;
+  border-left: 5px solid #ffb400;
 }
 
 .download-item.cancelled {
-  background-color: #f4f4f4; /* Светло-серый фон */
-  color: #888; /* Серый шрифт */
+  background-color: #f4f4f4;
+  color: #888;
+  border-left: 5px solid #888;
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
 }
 
 .download-info {
@@ -109,7 +135,7 @@
 }
 
 .error-status {
-  color: #FF7F50; /* коралловый цвет */
+  color: #FF7F50;
   font-weight: bold;
 }
 
@@ -147,6 +173,13 @@
   cursor: pointer;
 }
 
+.maximize-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
 .hide-completed-button {
   width: 100%;
   padding: 10px;
@@ -170,14 +203,25 @@
   height: 35px;
   color: #007bff;
   font-weight: bold;
-  font-size: 14px; /* Уменьшенный размер шрифта */
-  cursor: pointer; /* Добавляем курсор указатель для интерактивности */
-  padding: 4px; /* Минимальные отступы */
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
 }
 
 /* Стили для сообщения об отсутствии загрузок */
 .no-downloads {
   text-align: center;
-  color: #888; /* Светло-серый цвет */
-  font-size: 14px; /* Размер шрифта */
+  color: #888;
+  font-size: 14px;
+}
+
+/* Затемняющая подложка для макси режима */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачная черная подложка */
+  z-index: 1001;
 }
