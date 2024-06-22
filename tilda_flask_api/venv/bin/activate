@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/georgyshustov/tilda_flask_api/venv"
+VIRTUAL_ENV="/Users/georgyshustov/tilda_project/tilda_flask_api/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

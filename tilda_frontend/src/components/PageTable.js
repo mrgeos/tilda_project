@@ -6,7 +6,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import axios from 'axios';
 import StatusPanel from './StatusPanel';
-import LogPanel from './LogPanel'; // Подключаем компонент LogPanel
+import LogPanel from './LogPanel';
 import { FaSortDown, FaTimes } from 'react-icons/fa';
 
 const pastelColors = ['#DEFDE0', '#DEF3FD', '#FCF7DE', '#F0DEFD', '#FDDFDF'];
@@ -29,10 +29,7 @@ const PageTable = ({ pages }) => {
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [groupColors, setGroupColors] = useState({});
-  const [logMessages, setLogMessages] = useState([]); // Инициализируем пустым массивом
-
-  const publicKey = 'wxtiwdek2iftl7r54gu6';
-  const secretKey = 'kqxlrzh8swhoub7qpmbr';
+  const [logMessages, setLogMessages] = useState([]);
 
   const abortControllers = new Map();
 
@@ -144,12 +141,11 @@ const PageTable = ({ pages }) => {
           console.log(`Начинаем загрузку страницы ${pageId}.`);
           setLogMessages((prevMessages) => [...prevMessages, `Начинаем загрузку страницы ${pageId}.`]);
 
-          // Заменяем URL на проксируемый путь
-          const response = await axios.get(`/api/tilda/project2061/tilda-blocks-page26117898.min.css`, {
+          const response = await axios.get(`http://localhost:5000/api/download/page/${pageId}`, {
             signal: abortController.signal
           });
 
-          const pageData = response.data.result;
+          const pageData = response.data;
           const zip = new JSZip();
 
           setDownloads((downloads) =>
@@ -158,9 +154,12 @@ const PageTable = ({ pages }) => {
             )
           );
 
-          zip.file(`page${pageId}.html`, modifyHtmlPaths(pageData.html));
-
-          setLogMessages((prevMessages) => [...prevMessages, `HTML страницы ${pageId} добавлен в архив.`]);
+          if (pageData.html) {
+            zip.file(`page${pageId}.html`, modifyHtmlPaths(pageData.html));
+            setLogMessages((prevMessages) => [...prevMessages, `HTML страницы ${pageId} добавлен в архив.`]);
+          } else {
+            setLogMessages((prevMessages) => [...prevMessages, `HTML для страницы ${pageId} не найден.`]);
+          }
 
           // Сохранение изображений
           for (const image of pageData.images) {
@@ -170,33 +169,45 @@ const PageTable = ({ pages }) => {
                 setLogMessages((prevMessages) => [...prevMessages, `Запрос отменен во время загрузки изображения ${image.to} для страницы ${pageId}.`]);
                 continue;
               }
-              const imageResponse = await axios.get(image.from, {
-                responseType: 'arraybuffer',
-                signal: abortController.signal
-              });
-              zip.file(`images/${image.to}`, imageResponse.data);
-              setLogMessages((prevMessages) => [...prevMessages, `Изображение ${image.to} добавлено в архив.`]);
+              try {
+                const imageResponse = await axios.get(image.from, {
+                  responseType: 'arraybuffer',
+                  signal: abortController.signal
+                });
+                zip.file(`images/${image.to}`, imageResponse.data);
+                setLogMessages((prevMessages) => [...prevMessages, `Изображение ${image.to} добавлено в архив.`]);
+              } catch (error) {
+                setLogMessages((prevMessages) => [...prevMessages, `Ошибка при загрузке изображения ${image.to} для страницы ${pageId}: ${error.message}`]);
+              }
             }
           }
 
           // Сохранение CSS
           for (const css of pageData.css) {
-            const cssResponse = await axios.get(css.from, {
-              responseType: 'arraybuffer',
-              signal: abortController.signal
-            });
-            zip.file(`css/${css.to}`, cssResponse.data);
-            setLogMessages((prevMessages) => [...prevMessages, `CSS файл ${css.to} добавлен в архив.`]);
+            try {
+              const cssResponse = await axios.get(css.from, {
+                responseType: 'arraybuffer',
+                signal: abortController.signal
+              });
+              zip.file(`css/${css.to}`, cssResponse.data);
+              setLogMessages((prevMessages) => [...prevMessages, `CSS файл ${css.to} добавлен в архив.`]);
+            } catch (error) {
+              setLogMessages((prevMessages) => [...prevMessages, `Ошибка при загрузке CSS файла ${css.to} для страницы ${pageId}: ${error.message}`]);
+            }
           }
 
           // Сохранение JS
           for (const js of pageData.js) {
-            const jsResponse = await axios.get(js.from, {
-              responseType: 'arraybuffer',
-              signal: abortController.signal
-            });
-            zip.file(`js/${js.to}`, jsResponse.data);
-            setLogMessages((prevMessages) => [...prevMessages, `JS файл ${js.to} добавлен в архив.`]);
+            try {
+              const jsResponse = await axios.get(js.from, {
+                responseType: 'arraybuffer',
+                signal: abortController.signal
+              });
+              zip.file(`js/${js.to}`, jsResponse.data);
+              setLogMessages((prevMessages) => [...prevMessages, `JS файл ${js.to} добавлен в архив.`]);
+            } catch (error) {
+              setLogMessages((prevMessages) => [...prevMessages, `Ошибка при загрузке JS файла ${js.to} для страницы ${pageId}: ${error.message}`]);
+            }
           }
 
           if (abortController.signal.aborted) {
@@ -221,7 +232,7 @@ const PageTable = ({ pages }) => {
             )
           );
 
-          saveAs(zipBlob, `${pageData.title}.zip`);
+          saveAs(zipBlob, `${page.title}.zip`);
           setLogMessages((prevMessages) => [...prevMessages, `Архив для страницы ${pageId} создан и скачан.`]);
 
           setDownloads((downloads) =>
@@ -249,7 +260,7 @@ const PageTable = ({ pages }) => {
                 download.id === pageId ? { ...download, status: 'error' } : download
               )
             );
-            setLogMessages((prevMessages) => [...prevMessages, `Ошибка при загрузке страницы ${pageId}.`]);
+            setLogMessages((prevMessages) => [...prevMessages, `Ошибка при загрузке страницы ${pageId}: ${error.message}`]);
           }
         }
       }
@@ -366,7 +377,7 @@ const PageTable = ({ pages }) => {
                   className={sortOrder === option ? 'selected' : ''}
                   onClick={() => {
                     setSortOrder(option);
-                    setIsDropdownOpen(false); // Закрываем список после выбора
+                    setIsDropdownOpen(false);
                   }}
                 >
                   {sortOptions[option]}

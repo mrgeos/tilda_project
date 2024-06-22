@@ -1,4 +1,4 @@
-#!/Users/georgyshustov/tilda_flask_api/venv/bin/python3.11
+#!/Users/georgyshustov/tilda_project/tilda_flask_api/venv/bin/python3.11
 # -*- coding: utf-8 -*-
 import re
 import sys
