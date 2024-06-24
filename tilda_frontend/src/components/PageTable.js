@@ -270,14 +270,47 @@ const PageTable = ({ pages }) => {
     setIsConfirmationVisible(false);
     setIsDownloading(false);
   };
-
+  
+  //Изменить Пути В Html
   const modifyHtmlPaths = (html) => {
-    // Изменяем пути к изображениям, CSS и JS в HTML
-    return html
-      .replace(/src=['"]([^'"]+\.(png|jpg|jpeg|gif|svg))['"]/g, 'src="images/$1"')
-      .replace(/href=['"]([^'"]+\.css)['"]/g, 'href="css/$1"')
-      .replace(/src=['"]([^'"]+\.js)['"]/g, 'src="js/$1"');
+    // Регулярные выражения для обработки путей с параметрами кэширования
+    const regex = {
+      images: /src=['"]((?!http|https)[^'"]+\.(png|jpg|jpeg|gif|svg)(\?[^'"]*)?)['"]/g,
+      css: /href=['"]((?!http|https)[^'"]+\.css(\?[^'"]*)?)['"]/g,
+      js: /src=['"]((?!http|https)[^'"]+\.js(\?[^'"]*)?)['"]/g,
+      dataOriginal: /data-original=['"]((?!http|https)[^'"]+\.(png|jpg|jpeg|gif|svg)(\?[^'"]*)?)['"]/g
+    };
+  
+    // Функция замены пути к файлам с учетом параметров кэширования
+    const replacePath = (match, p1, p2) => {
+      const fileType = p1.split('.').pop().split('?')[0]; // Определяем тип файла
+      const cacheParam = p2 ? p2 : ''; // Извлекаем параметры кэширования, если они есть
+      if (fileType === 'css') {
+        return `href="css/${p1}${cacheParam ? '?' + cacheParam : ''}"`;
+      } else if (fileType === 'js') {
+        return `src="js/${p1}${cacheParam ? '?' + cacheParam : ''}"`;
+      } else {
+        return `src="images/${p1}${cacheParam ? '?' + cacheParam : ''}"`;
+      }
+    };
+  
+    // Обрабатываем пути к изображениям, CSS и JS в HTML
+    html = html
+      .replace(regex.images, (match, p1, p2) => replacePath(match, p1, p2))
+      .replace(regex.css, (match, p1, p2) => replacePath(match, p1, p2))
+      .replace(regex.js, (match, p1, p2) => replacePath(match, p1, p2))
+      .replace(regex.dataOriginal, (match, p1, p2) => `data-original="images/${p1}${p2 ? '?' + p2 : ''}"`);
+  
+    // Явная замена для динамически загружаемого скрипта tilda-stat-1.0.min.js
+    html = html.replace(/s\.src=['"]tilda-stat-1\.0\.min\.js(\?[^'"]*)?['"]/g, 's.src="js/tilda-stat-1.0.min.js"');
+  
+    return html;
   };
+  
+
+
+  
+  
 
   const cancelDownload = (pageId) => {
     const abortController = abortControllers.get(pageId);
